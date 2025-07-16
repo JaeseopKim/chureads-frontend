@@ -54,7 +54,7 @@ const FeedItem = ({ data, tags, isAuthor, currentUserId, onEdit, onDelete, onLik
           {/* START: 좋아요 영역 */}
           <div className="flex items-center gap-1">
             <button type="button" className="text-churead-gray-400" onClick={() => onLike(_id)}>
-              {data.likedUsers.includes(currentUserId) ? <RiHeartFill color="red" /> : <RiHeartLine />}
+              {false ? <RiHeartFill color="red" /> : <RiHeartLine />}
             </button>
             <span>{likeCount}</span>
           </div>

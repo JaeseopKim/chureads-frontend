@@ -45,7 +45,7 @@ const Home = () => {
           <ul>
             {feedList.map((feed) => (
               <FeedItem
-                key={feed.id}
+                key={feed._id}
                 data={feed}
                 tags={initialTags}
                 isAuthor={true}
