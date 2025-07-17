@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import InputField from "../components/InputField";
 import LoginButton from "../components/LoginButton";
 import { Link, useNavigate } from "react-router-dom";
@@ -8,6 +8,7 @@ import { GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup } from 
 const Login = () => {
   // logic
   const history = useNavigate();
+  const currentUser = auth.currentUser;
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -25,6 +26,8 @@ const Login = () => {
       setPassword(inputValue);
     }
   };
+
+  // 이미 로그인된 사용자는 login패이지 접근 불가
 
   const handleLogin = async (event) => {
     event.preventDefault(); // 폼 제출시 새로고침 방지 메소드
@@ -71,6 +74,15 @@ const Login = () => {
       console.error(error);
     }
   };
+
+
+  useEffect(() => {
+    // 로그인 한 사용자는 홈 페이지로 이동
+    if (!!currentUser) {
+      history("/");
+    }
+  }, [history, currentUser]);
+
 
   // view
   return (
