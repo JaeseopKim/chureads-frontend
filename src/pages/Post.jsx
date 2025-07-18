@@ -12,6 +12,7 @@ const Post = () => {
   const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
   const [churead, setChuread] = useState("");
+  const [isLoding, setIsLoding] = useState(false);
 
   const handleChange = (value) => {
     console.log("🚀 value:", value)
@@ -34,16 +35,21 @@ const Post = () => {
       }
 
       const result = await response.json()
+
       return result
 
     } catch (error) {
       console.error("게시글 추가 에러:", error)
+    } finally {
+      setIsLoding(false);
     }
   }
 
 
   const handlePost = async (event) => {
     event.preventDefault(); // 폼 제출시 새로고침 방지 메소드
+
+    setIsLoding(true);
 
     // 1. 텍스트에서 불필요한 공백 제거하기
     // 2. 제거한 텍스트를 기준으로 빈 스트링인지 체크하기
@@ -105,8 +111,10 @@ const Post = () => {
                 type="submit"
                 className="ml-auto px-5 py-2 bg-white text-churead-black rounded-3xl font-bold"
               >
-                게시
+                {isLoding ? "loading.." : "게시"}
               </button>
+
+
             </div>
             {/* END: 게시 버튼 영역 */}
           </form>
