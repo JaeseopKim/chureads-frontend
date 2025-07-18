@@ -4,6 +4,7 @@ import Nav from "../components/layout/Nav";
 import FeedItem from "../components/FeedItem";
 import { useNavigate } from "react-router-dom";
 import { auth } from './../firebase';
+import useSSE from "../hooks/useSSE";
 
 // 내부 로직 순서
 // 1. 변수 선언
@@ -13,15 +14,17 @@ const Home = () => {
 
   // logic
   const history = useNavigate();
-
   const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
   const [feedList, setFeedList] = useState([]);
 
   const currentUser = auth.currentUser;
-  console.log("🚀 ~ Home ~ currentUser:", currentUser)
+
+  //console.log("🚀 ~ Home ~ currentUser:", currentUser)
   //const [isLoggedIn, setIsLoggedIn] = useState("");
 
+  // SSE 연결
+  const { isConnected } = useSSE();
 
   const handleEdit = (data) => {
     history(`/edit/${data._id}`); // edit페이지로 이동
@@ -121,6 +124,9 @@ const Home = () => {
 
         <div>
           {/* START: 피드 영역 */}
+          <span className="block p-2 text-right text-sm">
+            {isConnected ? "연결성공" : "연결실패"}
+          </span>
           {feedList.length ? <ul>
             {feedList.map((feed) => (
               <FeedItem
